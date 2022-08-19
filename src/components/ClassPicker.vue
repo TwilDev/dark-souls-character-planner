@@ -31,12 +31,13 @@ export default {
   }),
   methods: {
     selectClass() {
-      const _cls = this.selectedClass
-      this.$emit("select-class", _cls)
-    }
+      //let _selectedCls = new Object(this.selectedClass)
+      //let _cls = this.classes.find(c => c.name === this.selectedClass.name)
+      //this.$emit("select-class", _selectedCls, _cls)
+    },
   },
   mounted() {
-    this.$emit("select-class", this.classes[0])
+    this.$emit("select-class", Object.create(this.classes[0]), Object.create(this.classes[0]))
     let el = document.getElementById("class-selector")
     el.value = this.classes[0]
   }
