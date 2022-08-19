@@ -36,7 +36,7 @@
                 <input type="text" disabled v-model="characterClass[obj.name]">
               </td>
               <td>
-                <input type="text" v-model="characterBuild[obj.name]">
+                <input type="text" readonly v-model="characterBuild[obj.name]">
               </td>
               <td class="d-flex">
                 <i @click="levelUpStat(obj.name)" class="gg-arrow-up"></i>
