@@ -106,6 +106,7 @@ export default {
         // }
         this.characterResistanceStat = newVal.resistance
         this.getStatSum(newVal)
+        
         this.calculateDefence(this.statSum, this.characterResistanceStat)
         this.calculateElementalDefence(this.statSum, this.characterResistanceStat, "fire")
         this.calculateElementalDefence(this.statSum, newVal.faith, "magic")
@@ -129,6 +130,8 @@ export default {
     calculateDefence(statSum, resistance) {
       let lookupIndex = statSum + resistance - 8
       //console.log(lookupIndex)
+      // if lookup index determined by stat sum and the players resistance stat are below the scaling softcap 
+      // do not add diminishing returns with harsher lookup
       if (lookupIndex < 262) {
         //console.log(lookupIndex)
         this.physicalDefence.physical = this.physicalDefenceTable[lookupIndex]
@@ -146,19 +149,17 @@ export default {
     },
     calculateElementalDefence(statSum, scalingStat, elementType) {
       let lookupIndex
-      //console.log(elementType)
-      //console.log(scalingStat)
+      //If calculating lightning defence - take sum of stats and use value against table
       if (elementType == "lightning") {
          this.elementalDefence.lightning = this.lightningDefenceTable[statSum]
          return
       }
+      //if sum of stats and adjusted scaling stat are higher than softcap for defence - defence should return diminishing returns against harsher lookup
       if (statSum + Math.floor((scalingStat - 8) * 1.59) > 325) {
-        //console.log(lookupIndex)
         lookupIndex = statSum + Math.floor((scalingStat - 99) * 1.59)
         this.elementalDefence[elementType] = this.magFireDefenceTable[lookupIndex]
       } else {
         lookupIndex = statSum +  Math.floor((scalingStat - 8) * 1.59)
-        //console.log(lookupIndex)
         this.elementalDefence[elementType] = this.magFireDefenceTable[lookupIndex]
       }
     },
@@ -168,9 +169,9 @@ export default {
     this.getStatSum(this.characterStats)
     this.characterResistanceStat = this.characterStats.resistance
     this.characterFaithStat = this.characterStats.faith
+    
     this.calculateDefence(this.statSum, this.characterResistanceStat)
     this.calculateElementalDefence(this.statSum, this.characterResistanceStat, "fire")
-    console.log(this.characterStats.faith)
     this.calculateElementalDefence(this.statSum, this.characterStats.faith, "magic")
     this.calculateElementalDefence(this.statSum, null, "lightning")
   }

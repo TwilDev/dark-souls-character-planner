@@ -39,8 +39,8 @@
                 <input type="text" readonly v-model="characterBuild[obj.name]">
               </td>
               <td class="d-flex">
-                <i @click="levelUpStat(obj.name)" class="gg-arrow-up"></i>
                 <i @click="levelDownStat(obj.name)" class="gg-arrow-down"></i>
+                <i @click="levelUpStat(obj.name)" class="gg-arrow-up"></i>
               </td>
             </tr>
           </tbody>
@@ -58,16 +58,18 @@
       </div>
     </div>
     <Defence :characterStats="characterBuild"></Defence>
+    <Matchmaking :characterLevel="characterBuild.level"></Matchmaking>
   </div>
 </template>
 
 <script>
 //import Classes from "../components/ClassPicker"
 import Defence from "../components/Defences"
+import Matchmaking from "../components/Matchmaking"
 
 export default {
   name: 'stat-sheet',
-  components: { Defence},
+  components: { Defence, Matchmaking },
   props: {},
   data: () => ({
     loading: false,
