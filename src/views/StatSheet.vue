@@ -190,23 +190,27 @@ export default {
       }
     },
     onManualStatChange(stat, statName, e) {
-
-      if (!e.target.value || parseInt(e.target.value) == this.characterBuild[statName]) {
+      //Check new event not null or not equal to current stat
+      if (!e.target.value || parseInt(e.target.value) == this.characterBuild[statName] ) {
         let input = document.getElementById(statName)
         input.value = stat
         return
       }
-
+  
       let newStatValue = parseInt(e.target.value)
 
-      //Get difference between stats
-      //Add difference to soul level
-      //Add to stat
-      //Find out some way to display the used souls
+      //Check if altered stat is below the base class level minumum
+      if (newStatValue < this.characterClass[statName]) {
+        newStatValue = this.characterClass[statName]
+      }
+      
+      //Get Difference and new soul Level from difference
       let statDifference = newStatValue - this.characterBuild[statName]
-      console.log(statDifference)
-      this.characterBuild.level += (statDifference)
-      this.characterBuild[statName] = parseInt(e.target.value)
+      let newSoulLevel = this.characterBuild.level += (statDifference)
+      
+      //assign new values
+      this.characterBuild.level = newSoulLevel
+      this.characterBuild[statName] = newStatValue
       this.calculateSoullevelCost(this.characterBuild.level)
     },
     calculateSoullevelCost(soulLevel) {
