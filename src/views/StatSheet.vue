@@ -220,6 +220,8 @@ export default {
         soulsRequired = Math.round((0.0068 * soulLevel ** 3) - (0.06 * soulLevel ** 2) + (17.1 * soulLevel) + 639)
         prevSoulsRequired = Math.round((0.0068 * this.lastCharacterLevel ** 3) - (0.06 * this.lastCharacterLevel ** 2) + (17.1 * this.lastCharacterLevel) + 639)
       } else {
+        console.log("got into higher")
+        soulLevel += 1
         soulsRequired = Math.round(((0.02 * soulLevel ** 3) + (3.06 * soulLevel ** 2) + (105.6 * soulLevel)) - 895)
         prevSoulsRequired = Math.round(((0.02 * this.lastCharacterLevel ** 3) + (3.06 * this.lastCharacterLevel ** 2) + (105.6 * this.lastCharacterLevel)) - 895)
         if (soulLevel == 12) prevSoulsRequired = Math.round((0.0068 * this.lastCharacterLevel ** 3) - (0.06 * this.lastCharacterLevel ** 2) + (17.1 * this.lastCharacterLevel) + 639)
