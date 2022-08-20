@@ -36,7 +36,8 @@
                 <input type="text" disabled v-model="characterClass[obj.name]">
               </td>
               <td>
-                <input type="text" readonly v-model="characterBuild[obj.name]">
+                <!-- <input type="text" @change="onTestChange" v-model.lazy="characterBuild[obj.name]"> -->
+                <input type="text" :id="obj.name" @change="onManualStatChange(characterBuild[obj.name], obj.name, $event)" :value="characterBuild[obj.name]">
               </td>
               <td class="d-flex">
                 <i @click="levelDownStat(obj.name)" class="gg-arrow-down"></i>
@@ -63,6 +64,18 @@
 </template>
 
 <script>
+
+/*
+
+----------------------ATTENTION BOI =------------------
+
+Use vue v-model.lazy for updating the object value when the user exits the input 
+better explantion here https://learnvue.co/tutorials/v-model-guide#modifiers-for-v-model
+
+=======================================================
+
+*/
+
 //import Classes from "../components/ClassPicker"
 import Defence from "../components/Defences"
 import Matchmaking from "../components/Matchmaking"
@@ -102,6 +115,7 @@ export default {
     nextLevelSouls: 0,
     totalSoulsSpent: 0,
     lastSoulsSpent: 0,
+    test: {},
   }),
   computed: {
     nextSoulLevelCost() {
@@ -172,6 +186,25 @@ export default {
         this.totalSoulsSpent -= souls
         this.lastSoulsSpent = souls
       }
+    },
+    onManualStatChange(stat, statName, e) {
+
+      if (!e.target.value || parseInt(e.target.value) == this.characterBuild[statName]) {
+        let input = document.getElementById(statName)
+        input.value = stat
+        return
+      }
+
+      let newStatValue = parseInt(e.target.value)
+
+      //Get difference between stats
+      //Add difference to soul level
+      //Add to stat
+      //Find out some way to display the used souls
+      let statDifference = newStatValue - this.characterBuild[statName]
+      console.log(statDifference)
+      this.characterBuild.level += (statDifference)
+      this.characterBuild[statName] = parseInt(e.target.value)
     }
   },
   mounted() {

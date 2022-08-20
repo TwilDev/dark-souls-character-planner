@@ -1,5 +1,9 @@
 <template>
-  <StatSheet></StatSheet>
+<div class="d-flex main-wrap">
+  <div>
+    <StatSheet></StatSheet>
+  </div>
+</div>
 </template>
 
 <script>
@@ -21,5 +25,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.main-wrap {
+  flex-wrap: wrap;
 }
 </style>
