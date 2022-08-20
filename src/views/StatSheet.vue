@@ -53,7 +53,7 @@
           <span>Total Souls Spent</span>
         </div>
         <div class="d-flex justify-content-around">
-          <input type="text" readonly v-model="nextSoulLevelCost"/>
+          <input type="text" readonly v-model="nextLevelSouls"/>
           <input type="text" readonly v-model="totalSoulsSpent"/>
         </div>
       </div>
@@ -162,6 +162,7 @@ export default {
         this.characterBuild[stat] = this.characterBuild[stat] + 1
         this.lastCharacterLevel = this.characterBuild.level
         this.characterBuild.level += 1
+        this.calculateSoullevelCost(this.characterBuild.level)
       }
     },
     levelDownStat(stat) {
@@ -169,6 +170,7 @@ export default {
         this.characterBuild[stat] = this.characterBuild[stat] - 1
         this.lastCharacterLevel = this.characterBuild.level
         this.characterBuild.level -= 1
+        this.calculateSoullevelCost(this.characterBuild.level)
       }
     },
     addTotalSouls(souls) {
@@ -205,6 +207,37 @@ export default {
       console.log(statDifference)
       this.characterBuild.level += (statDifference)
       this.characterBuild[statName] = parseInt(e.target.value)
+      this.calculateSoullevelCost(this.characterBuild.level)
+    },
+    calculateSoullevelCost(soulLevel) {
+      //console.log(soulLevel)
+      let soulsRequired
+      let prevSoulsRequired
+
+      //Caclulate the number of souls Needed to Level up from current Level based upon before 12 and after 12 calculcations
+      //Formula obtained from http://darksouls.wikidot.com/soul-level
+      if (soulLevel < 12) {
+        soulsRequired = Math.round((0.0068 * soulLevel ** 3) - (0.06 * soulLevel ** 2) + (17.1 * soulLevel) + 639)
+        prevSoulsRequired = Math.round((0.0068 * this.lastCharacterLevel ** 3) - (0.06 * this.lastCharacterLevel ** 2) + (17.1 * this.lastCharacterLevel) + 639)
+      } else {
+        soulsRequired = Math.round(((0.02 * soulLevel ** 3) + (3.06 * soulLevel ** 2) + (105.6 * soulLevel)) - 895)
+        prevSoulsRequired = Math.round(((0.02 * this.lastCharacterLevel ** 3) + (3.06 * this.lastCharacterLevel ** 2) + (105.6 * this.lastCharacterLevel)) - 895)
+        if (soulLevel == 12) prevSoulsRequired = Math.round((0.0068 * this.lastCharacterLevel ** 3) - (0.06 * this.lastCharacterLevel ** 2) + (17.1 * this.lastCharacterLevel) + 639)
+      } 
+      // console.log(`current souls required are ${soulsRequired}`)
+      // console.log(`The previous souls required were ${prevSoulsRequired}`)
+
+      if (soulLevel === this.lastCharacterLevel) {
+        this.nextLevelSouls = soulsRequired
+      } else if (soulLevel > this.lastCharacterLevel) {
+        //Add previous souls required to the total the total souls spent
+        this.addTotalSouls(prevSoulsRequired)
+      } else if (soulLevel < this.lastCharacterLevel) {
+        //Subtract souls required from the total souls spent
+        this.subtractTotalSouls(soulsRequired)
+      }
+      this.nextLevelSouls = soulsRequired
+      //return 0
     }
   },
   mounted() {
@@ -213,6 +246,7 @@ export default {
     this.characterClass = this.classes[0]
     this.characterBuild = {...this.characterClass}
     this.lastCharacterLevel = this.characterBuild.level
+    this.calculateSoullevelCost(this.characterBuild.level)
   }
 }
 
