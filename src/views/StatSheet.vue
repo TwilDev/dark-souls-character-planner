@@ -65,17 +65,6 @@
 
 <script>
 
-/*
-
-----------------------ATTENTION BOI =------------------
-
-Use vue v-model.lazy for updating the object value when the user exits the input 
-better explantion here https://learnvue.co/tutorials/v-model-guide#modifiers-for-v-model
-
-=======================================================
-
-*/
-
 //import Classes from "../components/ClassPicker"
 import Defence from "../components/Defences"
 import Matchmaking from "../components/Matchmaking"
@@ -224,7 +213,6 @@ export default {
         soulsRequired = Math.round((0.0068 * soulLevel ** 3) - (0.06 * soulLevel ** 2) + (17.1 * soulLevel) + 639)
         prevSoulsRequired = Math.round((0.0068 * this.lastCharacterLevel ** 3) - (0.06 * this.lastCharacterLevel ** 2) + (17.1 * this.lastCharacterLevel) + 639)
       } else {
-        console.log("got into higher")
         soulLevel += 1
         soulsRequired = Math.round(((0.02 * soulLevel ** 3) + (3.06 * soulLevel ** 2) + (105.6 * soulLevel)) - 895)
         prevSoulsRequired = Math.round(((0.02 * this.lastCharacterLevel ** 3) + (3.06 * this.lastCharacterLevel ** 2) + (105.6 * this.lastCharacterLevel)) - 895)
@@ -244,6 +232,26 @@ export default {
       }
       this.nextLevelSouls = soulsRequired
       //return 0
+    },
+    calculateSoulLevelCostJump(oldSl, newSl) {
+      //Make a sum variable
+      //Difference variable that shows whether different between new and old is positive or negative
+      //use oldSL and newSL as indexes in a for loop
+
+      //need to check whether the difference is positive or negative and assign a loop for either one
+
+      // for example
+      // for(let i=oldSl; i < newSL; i++)
+      //loop through each one using the same formulas adding to the sum value each time
+      //Call function to add/remove value from the total soul count
+      let sum
+      for (let i=oldSl; i<newSl; i++) {
+        //do some shit
+        sum += i
+      }
+
+      //Add or subtract from the total
+      return sum
     }
   },
   mounted() {
