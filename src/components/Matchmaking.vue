@@ -52,7 +52,7 @@ export default {
     characterLevel: {
       handler(newVal, oldVal) {
         if (newVal !== oldVal) {
-          console.log(newVal)
+          //console.log(newVal)
           let soulLevel = newVal
           this.eyeInvasion.upper = Math.floor(soulLevel + (20 + 0.1 * soulLevel))
           this.eyeInvasion.lower = Math.floor(soulLevel - (0.1 * soulLevel))
