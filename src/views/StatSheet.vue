@@ -172,9 +172,8 @@ export default {
 
       //Get Difference and new soul Level from difference
       let statDifference = newStatValue - this.characterBuild[statName]
-      console.log("stat difference is " + statDifference)
-
       
+      //Set last character level
       this.lastCharacterLevel = this.characterBuild.level
 
       let newSoulLevel = this.characterBuild.level += (statDifference)
@@ -204,8 +203,6 @@ export default {
         }
       
       } 
-      console.log(`current souls required are ${soulsRequired}`)
-      console.log(`The previous souls required were ${prevSoulsRequired}`)
 
       if (soulLevel === this.lastCharacterLevel) {
         this.nextLevelSouls = soulsRequired
@@ -224,8 +221,7 @@ export default {
       //Difference variable that shows whether different between new and old is positive or negative
       //use oldSL and newSL as indexes in a for loop
       this.loading = true
-      console.log("old SL was " + oldSl)
-      console.log("new SL is " + newSl)
+
       let lvlUpValues = []
       //Level UP cost
       if (oldSl < newSl) {
@@ -238,9 +234,7 @@ export default {
             lvlUpValues.push(soulsRequired)
           }
         }
-        console.log(lvlUpValues)
         const sum = lvlUpValues.reduce((a, b) => a + b, 0)
-        console.log(sum)
         this.totalSoulsSpent += sum
       }
       //Level DOWN cost
@@ -255,9 +249,7 @@ export default {
           }
           
         }
-        console.log(lvlUpValues)
         const sum = lvlUpValues.reduce((a, b) => a + b, 0)
-        console.log(sum)
         this.totalSoulsSpent -= sum
       }
       this.loading = false

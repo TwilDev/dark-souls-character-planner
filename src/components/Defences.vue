@@ -157,7 +157,7 @@ export default {
       //if sum of stats and adjusted scaling stat are higher than softcap for defence - defence should return diminishing returns against harsher lookup
       if (statSum + Math.floor((scalingStat - 8) * 1.59) > 325) {
         lookupIndex = statSum + Math.floor((scalingStat - 99) * 1.59)
-        this.elementalDefence[elementType] = this.magFireDefenceTable[lookupIndex]
+        this.elementalDefence[elementType] = this.magFireDefence99Table[lookupIndex]
       } else {
         lookupIndex = statSum +  Math.floor((scalingStat - 8) * 1.59)
         this.elementalDefence[elementType] = this.magFireDefenceTable[lookupIndex]

@@ -52,16 +52,15 @@ export default {
     characterLevel: {
       handler(newVal, oldVal) {
         if (newVal !== oldVal) {
-          //console.log(newVal)
           let soulLevel = newVal
-          this.eyeInvasion.upper = Math.floor(soulLevel + (20 + 0.1 * soulLevel))
-          this.eyeInvasion.lower = Math.floor(soulLevel - (0.1 * soulLevel))
+          this.eyeInvasion.upper = Math.floor(soulLevel + (20 + 0.1 * soulLevel)) > 715 ? 715 : Math.floor(soulLevel + (20 + 0.1 * soulLevel))
+          this.eyeInvasion.lower = Math.floor(soulLevel - (0.1 * soulLevel)) > 715 ? 715 : Math.floor(soulLevel - (0.1 * soulLevel))
 
-          this.summonSign.upper = Math.floor(soulLevel + (10 + 0.1 * soulLevel))
-          this.summonSign.lower = Math.floor(soulLevel - (10 + 0.1 * soulLevel))
+          this.summonSign.upper = Math.floor(soulLevel + (10 + 0.1 * soulLevel)) > 715 ? 715 : Math.floor(soulLevel + (10 + 0.1 * soulLevel))
+          this.summonSign.lower = Math.floor(soulLevel - (10 + 0.1 * soulLevel)) > 715 ? 715 : Math.floor(soulLevel - (10 + 0.1 * soulLevel))
 
-          this.covenantInvasion.upper = Math.floor(soulLevel + (0.1 * soulLevel))
-          this.covenantInvasion.lower = Math.floor(soulLevel - (20 + 0.2 * soulLevel))
+          this.covenantInvasion.upper = Math.floor(soulLevel + (0.1 * soulLevel)) > 715 ? 715 : Math.floor(soulLevel + (0.1 * soulLevel))
+          this.covenantInvasion.lower = Math.floor(soulLevel - (20 + 0.2 * soulLevel)) > 715 ? 715 : Math.floor(soulLevel - (20 + 0.2 * soulLevel))
         }
       },
       deep: true
