@@ -163,12 +163,18 @@ export default {
       //Check if altered stat is below the base class level minumum
       if (newStatValue < this.characterClass[statName]) {
         newStatValue = this.characterClass[statName]
+        let input = document.getElementById(statName)
+        input.value = newStatValue
       }
-      
+
       //Get Difference and new soul Level from difference
       let statDifference = newStatValue - this.characterBuild[statName]
-      let newSoulLevel = this.characterBuild.level += (statDifference)
+      console.log("stat difference is " + statDifference)
+
       
+      this.lastCharacterLevel = this.characterBuild.level
+
+      let newSoulLevel = this.characterBuild.level += (statDifference)
       //assign new values
       this.characterBuild.level = newSoulLevel
       this.characterBuild[statName] = newStatValue
@@ -214,15 +220,8 @@ export default {
       //Make a sum variable
       //Difference variable that shows whether different between new and old is positive or negative
       //use oldSL and newSL as indexes in a for loop
-
-      //need to check whether the difference is positive or negative and assign a loop for either one
-
-      // for example
-      // for(let i=oldSl; i < newSL; i++)
-      //loop through each one using the same formulas adding to the sum value each time
-      //Call function to add/remove value from the total soul count
-      console.log(oldSl)
-      console.log(newSl)
+      console.log("old SL was " + oldSl)
+      console.log("new SL is " + newSl)
       let lvlUpValues = []
       //Level UP cost
       if (oldSl < newSl) {
@@ -234,17 +233,15 @@ export default {
             let soulsRequired = Math.round(((0.02 * i ** 3) + (3.06 * i ** 2) + (105.6 * i)) - 895)
             lvlUpValues.push(soulsRequired)
           }
-        console.log(lvlUpValues)
         }
+        console.log(lvlUpValues)
         const sum = lvlUpValues.reduce((a, b) => a + b, 0)
         console.log(sum)
         this.totalSoulsSpent += sum
       }
       //Level DOWN cost
       if (oldSl > newSl) {
-        console.log("value is lower")
-        for (let i=oldSl; i > newSl; i-- ) {
-          i = i-1
+        for (let i=oldSl - 1; i >= newSl; i-- ) {
           if (i < 12) {
             let soulsRequired = Math.round((0.0068 * i ** 3) - (0.06 * i ** 2) + (17.1 * i) + 639)
             lvlUpValues.push(soulsRequired)
@@ -252,7 +249,9 @@ export default {
             let soulsRequired = Math.round(((0.02 * i ** 3) + (3.06 * i ** 2) + (105.6 * i)) - 895)
             lvlUpValues.push(soulsRequired)
           }
+          
         }
+        console.log(lvlUpValues)
         const sum = lvlUpValues.reduce((a, b) => a + b, 0)
         console.log(sum)
         this.totalSoulsSpent -= sum
