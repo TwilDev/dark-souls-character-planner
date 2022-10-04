@@ -235,10 +235,10 @@ export default {
             lvlUpValues.push(soulsRequired)
           }
         console.log(lvlUpValues)
+        }
         const sum = lvlUpValues.reduce((a, b) => a + b, 0)
         console.log(sum)
         this.totalSoulsSpent += sum
-        }
       }
       //Level DOWN cost
       if (oldSl > newSl) {
