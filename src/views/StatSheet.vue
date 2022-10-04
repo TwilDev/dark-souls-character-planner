@@ -1,7 +1,8 @@
 <template>
   <div class="dark-souls-character-planner container">
     <div class="dark-souls-character-planner__class ">
-      <h1>Class</h1>
+      <h1>Dark Souls (ダークソウル) Character Builder</h1>
+      <h2>Class</h2>
       <div>
         <!-- <Classes @select-class="setNewClass"></Classes> -->
         <select id="class-selector" @change="setNewClass" v-model="characterClass">
@@ -116,6 +117,7 @@ export default {
       this.lastSoulsSpend = 0
     },
     levelUpStat(stat) {
+      if (this.loading) return
       if (this.characterBuild[stat] && this.characterBuild[stat] < 99) {
         this.characterBuild[stat] = this.characterBuild[stat] + 1
         this.lastCharacterLevel = this.characterBuild.level
@@ -125,6 +127,7 @@ export default {
       }
     },
     levelDownStat(stat) {
+      if (this.loading) return
       if (this.characterBuild[stat] && this.characterBuild[stat] - 1 >= this.characterClass[stat]) {
         this.characterBuild[stat] = this.characterBuild[stat] - 1
         this.lastCharacterLevel = this.characterBuild.level
@@ -220,6 +223,7 @@ export default {
       //Make a sum variable
       //Difference variable that shows whether different between new and old is positive or negative
       //use oldSL and newSL as indexes in a for loop
+      this.loading = true
       console.log("old SL was " + oldSl)
       console.log("new SL is " + newSl)
       let lvlUpValues = []
@@ -256,6 +260,7 @@ export default {
         console.log(sum)
         this.totalSoulsSpent -= sum
       }
+      this.loading = false
     }
   },
   mounted() {
