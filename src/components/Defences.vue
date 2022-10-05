@@ -68,6 +68,7 @@ export default {
   data: () => ({
     physicalDefence: {
       physical: 0,
+      phsyicalBase: 0,
       strike: 0,
       slash: 0,
       thrust : 0
@@ -180,7 +181,7 @@ export default {
 
 <style lang="scss">
 .defence-stats {
-  padding-top: 2em;
+  //padding-top: 2em;
   table {
     tbody {
       tr.tr-head {

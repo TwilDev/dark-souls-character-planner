@@ -10,57 +10,65 @@
         </select>
       </div>
     </div>
-    <div class="dark-souls-character-planner__stat-sheet">
-      <div class="d-flex justify-content-center">
-        <table class="text-align__left stat-sheet">
-          <thead>
-            <tr>
-              <td></td>
-              <td>Starting</td>
-              <td>Current</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Soul Level</td>
-              <td>
-                <input type="text" disabled v-model="characterClass.level"/>
-              </td>
-              <td>
-                <input type="text" readonly v-model="characterBuild.level"/>
-              </td>
-            </tr>
-            <tr v-for="(obj, key) in stats" :key="key">
-              <td v-text="obj.name"></td>
+    <div class="dark-souls-character-planner__wrapper">
+      <div class="dark-souls-character-planner__stat-sheet character-planner_section">
+        <div class="d-flex justify-content-center">
+          <table class="text-align__left stat-sheet">
+            <thead>
+              <tr>
+                <td></td>
+                <td>Starting</td>
+                <td>Current</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Soul Level</td>
+                <td>
+                  <input type="text" disabled v-model="characterClass.level"/>
+                </td>
+                <td>
+                  <input type="text" readonly v-model="characterBuild.level"/>
+                </td>
+              </tr>
+              <tr v-for="(obj, key) in stats" :key="key">
+                <td v-text="obj.name"></td>
 
-              <td>
-                <input type="text" disabled v-model="characterClass[obj.name]">
-              </td>
-              <td>
-                <!-- <input type="text" @change="onTestChange" v-model.lazy="characterBuild[obj.name]"> -->
-                <input type="text" :id="obj.name" @change="onManualStatChange(characterBuild[obj.name], obj.name, $event)" :value="characterBuild[obj.name]">
-              </td>
-              <td class="d-flex">
-                <i @click="levelDownStat(obj.name)" class="gg-arrow-down"></i>
-                <i @click="levelUpStat(obj.name)" class="gg-arrow-up"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td>
+                  <input type="text" disabled v-model="characterClass[obj.name]">
+                </td>
+                <td>
+                  <!-- <input type="text" @change="onTestChange" v-model.lazy="characterBuild[obj.name]"> -->
+                  <input type="text" :id="obj.name" @change="onManualStatChange(characterBuild[obj.name], obj.name, $event)" :value="characterBuild[obj.name]">
+                </td>
+                <td class="d-flex">
+                  <i @click="levelDownStat(obj.name)" class="gg-arrow-down"></i>
+                  <i @click="levelUpStat(obj.name)" class="gg-arrow-up"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="dark-souls-character-planner__stat-sheet--souls-cost">
+          <div class="d-flex justify-content-around">
+            <span>Souls to next level</span>
+            <span>Total Souls Spent</span>
+          </div>
+          <div class="d-flex justify-content-around">
+            <input type="text" readonly v-model="nextLevelSouls"/>
+            <input type="text" readonly v-model="totalSoulsSpent"/>
+          </div>
+        </div>
+        <Matchmaking :characterLevel="characterBuild.level"></Matchmaking>
       </div>
-      <div class="dark-souls-character-planner__stat-sheet--souls-cost">
-        <div class="d-flex justify-content-around">
-          <span>Souls to next level</span>
-          <span>Total Souls Spent</span>
-        </div>
-        <div class="d-flex justify-content-around">
-          <input type="text" readonly v-model="nextLevelSouls"/>
-          <input type="text" readonly v-model="totalSoulsSpent"/>
-        </div>
+      <div class="character-planner_section">
+        <CoreStats :characterBuildVitality="characterBuild.vitality" :characterBuildEndurance="characterBuild.endurance"></CoreStats>
+        <Defence :characterStats="characterBuild"></Defence>
       </div>
     </div>
-    <Defence :characterStats="characterBuild"></Defence>
-    <Matchmaking :characterLevel="characterBuild.level"></Matchmaking>
+
+
+    
   </div>
 </template>
 
@@ -69,10 +77,11 @@
 //import Classes from "../components/ClassPicker"
 import Defence from "../components/Defences"
 import Matchmaking from "../components/Matchmaking"
+import CoreStats from "../components/CoreStats"
 
 export default {
   name: 'stat-sheet',
-  components: { Defence, Matchmaking },
+  components: { Defence, Matchmaking, CoreStats },
   props: {},
   data: () => ({
     loading: false,
@@ -270,6 +279,9 @@ export default {
 <style lang="scss">
 
 .dark-souls-character-planner {
+  &__wrapper {
+    display: flex;
+  }
   &__stat-sheet {
     &--souls-cost {
       width: 25%;
@@ -284,6 +296,10 @@ export default {
       };
     }
   }
+}
+
+.character-planner_section {
+  padding: 1rem;
 }
 
 i {
