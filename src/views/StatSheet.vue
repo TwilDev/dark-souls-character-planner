@@ -55,10 +55,11 @@
             <span>Total Souls Spent</span>
           </div>
           <div class="d-flex justify-content-around">
-            <input type="text" readonly v-model="nextLevelSouls"/>
+            <input type="text" readonly v-model="nextlevelCost"/>
             <input type="text" readonly v-model="totalSoulsSpent"/>
           </div>
         </div>
+        <Consumables />
         <Matchmaking :characterLevel="characterBuild.level"></Matchmaking>
       </div>
       <div class="character-planner_section">
@@ -77,11 +78,12 @@
 //import Classes from "../components/ClassPicker"
 import Defence from "../components/Defences"
 import Matchmaking from "../components/Matchmaking"
+import Consumables from '../components/Consumables'
 import CoreStats from "../components/CoreStats"
 
 export default {
   name: 'stat-sheet',
-  components: { Defence, Matchmaking, CoreStats },
+  components: { Defence, Matchmaking, CoreStats, Consumables },
   props: {},
   data: () => ({
     loading: false,
@@ -117,13 +119,21 @@ export default {
     test: {},
   }),
   computed: {
+    nextlevelCost() {
+      let lvl = this.characterBuild.level
+      if (lvl < 12) {
+        return Math.round((0.0068 * lvl ** 3) - (0.06 * lvl ** 2) + (17.1 * lvl) + 639)
+      } else {
+        return Math.round(((0.02 * lvl ** 3) + (3.06 * lvl ** 2) + (105.6 * lvl)) - 895)
+      }
+    }
   },
   methods: {
     setNewClass() {
       //Need to check if stats are changed then just adjust for new base class
       this.characterBuild = {...this.characterClass}
       this.soulsRequired = 0
-      this.lastSoulsSpend = 0
+      this.totalSoulsSpent = 0
     },
     levelUpStat(stat) {
       if (this.loading) return
@@ -131,7 +141,6 @@ export default {
         this.characterBuild[stat] = this.characterBuild[stat] + 1
         this.lastCharacterLevel = this.characterBuild.level
         this.characterBuild.level += 1
-        //this.calculateSoullevelCost(this.characterBuild.level)
         this.calculateSoulLevelCostJump(this.lastCharacterLevel, this.characterBuild.level)
       }
     },
@@ -146,7 +155,6 @@ export default {
       }
     },
     addTotalSouls(souls) {
-      //console.log("got into add")
       if (souls) {
         //console.log(`total souls spent ${this.totalSoulsSpent} plus ${souls}`)
         this.lastSoulsSpent = souls
@@ -154,7 +162,6 @@ export default {
       }
     },
     subtractTotalSouls(souls) {
-      //console.log("got into subtract")
       if (souls) {
         //console.log(`total souls spent ${this.totalSoulsSpent} minus ${souls}`)
         console.log(souls)
@@ -190,10 +197,8 @@ export default {
       this.characterBuild.level = newSoulLevel
       this.characterBuild[statName] = newStatValue
       this.calculateSoulLevelCostJump(this.lastCharacterLevel, this.characterBuild.level)
-      //this.calculateSoullevelCost(this.characterBuild.level)
     },
     calculateSoullevelCost(soulLevel) {
-      //console.log(soulLevel)
       let soulsRequired
       let prevSoulsRequired
 
@@ -284,7 +289,6 @@ export default {
   }
   &__stat-sheet {
     &--souls-cost {
-      width: 25%;
       margin: auto;
       padding-top: 1em;
       span {

@@ -6,6 +6,8 @@
         <div>
           <label for="upper-level">Upper Limit</label>
           <h5 class="upper-limit" v-text="eyeInvasion.upper"></h5>
+        </div>
+        <div>
           <label for="upper-level">Lower Limit</label>
           <h5 class="upper-limit" v-text="eyeInvasion.lower > 0 ? eyeInvasion.lower : 1"></h5>
         </div>
@@ -15,6 +17,8 @@
         <div>
           <label for="upper-level">Upper Limit</label>
           <h5 class="upper-limit" v-text="summonSign.upper"></h5>
+        </div>
+        <div>
           <label for="upper-level">Lower Limit</label>
           <h5 class="upper-limit" v-text="summonSign.lower > 0 ? summonSign.lower : 1"></h5>
         </div>
